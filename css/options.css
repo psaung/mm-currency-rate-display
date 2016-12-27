@@ -1,0 +1,16 @@
+body {
+  background: #eee;
+  font-size: 16px;
+}
+.container {
+  padding: 15px;
+  width: 800px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.app-header {
+  text-align: center;
+}

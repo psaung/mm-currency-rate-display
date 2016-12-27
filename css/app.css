@@ -1,0 +1,96 @@
+:root {
+  --app-screen-width: 600px;
+  --tbl-th-color: #d0e8ae;
+  --tbl-stripe-color: #f3fce9;
+  --tbl-tr-hover-color: #e8f5fe;
+  --btn-color: #d0e8ae;
+}
+html {
+  min-width: var(--app-screen-width);
+}
+
+body {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.app-header {
+  background: #ccc;
+  padding: 5px 0px;
+  text-align: center;
+}
+
+.currency-tbl {
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.currency-tbl th {
+  background: var(--tbl-th-color);
+}
+
+.currency-tbl th,
+.currency-tbl td {
+  padding: 5px 0px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.currency-tbl td img {
+  vertical-align: middle;
+  width: 48px;
+  height: 48px;
+}
+
+.currency-tbl tr:nth-child(2n) {
+  background: var(--tbl-stripe-color);
+}
+.currency-tbl tr:hover{
+  background: var(--tbl-hover-color);
+}
+
+#error-placeholder {
+  color: red;
+  padding: 10px 0px;
+  display: none;
+}
+
+.wm_container{
+	position:relative;
+	overflow:auto;
+	margin:auto;
+	padding:10px;
+	text-align:center;
+	background:$color_grey;
+	box-shadow: inset 0px 0px 8px rgba(154, 154, 154, 0.78);
+	overflow:hidden;
+  display: none;
+}
+
+.wm_container.bounce_in {
+  display: block;
+}
+
+.about-btn {
+  border-radius: 3px;
+  background: #d0e8ae;
+  border: 1px solid transparent;
+  display: inline-block;
+  font-weight: 400;
+  margin: 10px 0px;
+  padding: 5px 10px;
+  text-align: center;
+  user-select: none;
+  -webkit-appearance: button;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.about-btn:hover {
+  background: #c3ec87;
+}

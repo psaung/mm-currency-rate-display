@@ -1,0 +1,12 @@
+{
+  "name": "MM Currency Rate Display",
+  "version": "1.0.0",
+  "description": "A chrome extension that lets you know how much rates for popular currencies in Myanmar Kyat(MMK)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pyae sone",
+  "email": "psaung299@gmail.com",
+  "license": "ISC",
+}

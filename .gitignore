@@ -1,0 +1,20 @@
+.DS_Store
+._.DS_Store
+
+# Logs
+logs
+*.log
+
+# node-waf configuration
+.lock-wscript
+
+#Dependency directory
+node_modules
+app/bower_components
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+.idea/
