@@ -94,3 +94,15 @@ body {
 .about-btn:hover {
   background: #c3ec87;
 }
+
+.loading-container {
+  width: 100%;
+  min-height: 400px;
+  background: url('loading.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.wm_container {
+  display: none;
+}

@@ -9,21 +9,28 @@ Git:http://github/ryvan-js
 
 	var WireMonkey = window.WireMonkey || {};
 
+  // Utility method to extend defaults with user options
+  function extendDefaults(source, properties) {
+    var property;
+    for (property in properties) {
+      if (properties.hasOwnProperty(property)) {
+        source[property] = properties[property];
+      }
+    }
+    return source;
+  }
+
 	WireMonkey = (function(){
 
 		WireMonkey = function(){
 			var _ = this;
 
-			document.querySelector("body").insertAdjacentHTML("afterBegin","<div class='wm_container' >\
-															<div class='bg_color_ball'></div>\
-															<div class='wm_message_board'>\
-															<span>Connection Lost</span><span class='icon'></span>\
-															</div>\
-															</div>");
+      _.connectedHandler = [];
+      _.disconnectedHandler = [];
 
 			_.conf = {
 				parentElement:"body",
-				WmElement:document.querySelector(".wm_container"),
+				WmElement: ".wm_container",
 				classDefault:"wm_container",
 				classSlideIn:"bounce_in",
 				classSlideOut:"bounce_out",
@@ -38,15 +45,33 @@ Git:http://github/ryvan-js
 
 			_.onLine= true;
 
+
 			_.onDisconnect = function(){
-				_.conf.WmElement.querySelector('span').innerHTML = _.message.connectionLost;
-				_.conf.WmElement.className = _.conf.WmElement.className +" "+ _.conf.classSlideIn;
+        var component = _.conf.WmElement;
+				document.querySelector(component).querySelector('span').innerHTML = _.message.connectionLost;
+				document.querySelector(component).className = document.querySelector(component).className +" "+ _.conf.classSlideIn;
 			}
 
 			_.onConnect = function(){
-				_.conf.WmElement.querySelector('span').innerHTML = _.message.reconnected;
-				_.conf.WmElement.className = _.conf.WmElement.className +" "+ _.conf.classConnected;
+        var component = _.conf.WmElement;
+				document.querySelector(component).querySelector('span').innerHTML = _.message.reconnected;
+				document.querySelector(component).className = document.querySelector(component).className +" "+ _.conf.classConnected;
 			}
+
+      _.changeConnectionStatus = function(val) {
+        if(val !== undefined) {
+          if(val) {
+            for(var i = 0; i < _.connectedHandler.length; i++){
+              _.connectedHandler[i](this);
+            }
+          } else {
+            for(var i = 0; i < _.disconnectedHandler.length; i++){
+              _.disconnectedHandler[i](this);
+            }
+          }
+          this.onLine = val;
+        }
+      }
 
 			//_.init();
 
@@ -55,6 +80,17 @@ Git:http://github/ryvan-js
 		return WireMonkey;
 
 	}());
+
+  WireMonkey.prototype.on = function(event, handler) {
+    switch(event) {
+      case 'connected':
+          this.connectedHandler.push(handler);
+        break;
+      case 'disconnected':
+          this.disconnectedHandler.push(handler)
+        break;
+    }
+  }
 
 	WireMonkey.prototype.checkConnection = function () {
 		var _ = this;
@@ -79,21 +115,30 @@ Git:http://github/ryvan-js
 		var msg = _.message;
 		var connection = true;
 
+    // we don't necessary to show the wire monkey container if the user is not initialized the plugin.
+    document.querySelector(_.conf.parentElement).insertAdjacentHTML("afterBegin","<div class='wm_container' >\
+															<div class='bg_color_ball'></div>\
+															<div class='wm_message_board'>\
+															<span>Connection Lost</span><span class='icon'></span>\
+															</div>\
+															</div>");
 
+    // check internet connection in every 4000 miliseconds.
 		setInterval(function(){
-
 			isOnline = _.checkConnection();
-			if(isOnline && reset_element) conf.WmElement.className = conf.classDefault; reset_element = false;
+			if(isOnline && reset_element) document.querySelector(conf.WmElement).className = conf.classDefault; reset_element = false;
 			if(!isOnline){
 				if(connection){
 					_.onDisconnect();
 					connection = false;
+          _.changeConnectionStatus(false);
 				}
 			}else
 			if(isOnline && !connection){
 				_.onConnect();
 				setTimeout(function(){
-					conf.WmElement.className = conf.WmElement.className +" "+ conf.classSlideOut;
+					document.querySelector(conf.WmElement).className = document.querySelector(conf.WmElement).className +" "+ conf.classSlideOut;
+          _.changeConnectionStatus(true);
 					reset_element = true;
 				},1000);
 				return connection = true;
@@ -104,5 +149,4 @@ Git:http://github/ryvan-js
 
 	window.WireMonkey = new WireMonkey();
 
-    //console.log( WM );
 }());
